@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DwarfURL
 
-## Getting Started
+DwarfURL is a beginner-friendly URL shortener project built with Next.js and
+TypeScript.
 
-First, run the development server:
+The goal of the app is simple:
+
+- users create an account
+- users shorten long URLs
+- each user sees their own links on a Library page
+
+## What We Have So Far
+
+Right now, the project has a custom landing page and two placeholder routes:
+
+- `app/page.tsx` is the homepage
+- `app/create/page.tsx` will become the link creation page
+- `app/library/page.tsx` will become the signed-in user library page
+- `app/layout.tsx` is the shared wrapper for every page
+- `app/globals.css` contains the global styling and theme colors
+
+## Why Next.js?
+
+Next.js is a good fit here because it lets us keep the frontend and backend in
+one project.
+
+That means:
+
+- React builds the pages the user sees
+- route handlers will let us create backend endpoints
+- server-side code can talk to the database
+- later we can add auth without splitting the app into two separate repos
+
+## Commands
+
+Run the local development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Check for linting issues:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run lint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a production build:
 
-## Learn More
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Next Steps
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The next major milestones are:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Add Prisma and connect PostgreSQL.
+2. Create the database models for `User` and `ShortLink`.
+3. Add authentication.
+4. Build the form that creates short links.
+5. Build the Library page that shows each user's saved links.
+6. Add the redirect route for short slugs.
