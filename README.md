@@ -1,63 +1,39 @@
 # DwarfURL
 
-DwarfURL is a beginner-friendly URL shortener project built with Next.js and
-TypeScript.
+DwarfURL is a URL shortener project built with Next.js, TypeScript, Prisma, custom auth, and Supabase-hosted Postgres.
 
-The goal of the app is simple:
+## Current Status
 
-- users create an account
-- users shorten long URLs
-- each user sees their own links on a Library page
+The project now has:
 
-## What We Have So Far
+- a landing page
+- a hosted PostgreSQL database connected through Prisma
+- custom email and password auth managed by the app itself
+- a working create-link form
+- a protected library page that lists each user's links
+- dynamic short-code redirects with click counting
 
-Right now, the project has a custom landing page and two placeholder routes:
+## Required Environment Variables
 
-- `app/page.tsx` is the homepage
-- `app/create/page.tsx` will become the link creation page
-- `app/library/page.tsx` will become the signed-in user library page
-- `app/layout.tsx` is the shared wrapper for every page
-- `app/globals.css` contains the global styling and theme colors
+Database connections:
 
-## Why Next.js?
+- `DATABASE_URL` for the pooled runtime database connection
+- `DIRECT_URL` for Prisma CLI commands like migrations
 
-Next.js is a good fit here because it lets us keep the frontend and backend in
-one project.
+Optional app URL:
 
-That means:
+- `APP_URL` if you want to force a specific base URL when displaying short links
 
-- React builds the pages the user sees
-- route handlers will let us create backend endpoints
-- server-side code can talk to the database
-- later we can add auth without splitting the app into two separate repos
+## Useful Commands
 
-## Commands
+Generate the Prisma client:
 
-Run the local development server:
+```bash
+npm run prisma:generate
+```
+
+Start the Next.js app:
 
 ```bash
 npm run dev
 ```
-
-Check for linting issues:
-
-```bash
-npm run lint
-```
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Next Steps
-
-The next major milestones are:
-
-1. Add Prisma and connect PostgreSQL.
-2. Create the database models for `User` and `ShortLink`.
-3. Add authentication.
-4. Build the form that creates short links.
-5. Build the Library page that shows each user's saved links.
-6. Add the redirect route for short slugs.
