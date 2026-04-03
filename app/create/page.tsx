@@ -52,7 +52,7 @@ export default async function CreatePage({ searchParams }: CreatePageProps) {
       </header>
 
       <section className="mt-10 grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-        <section className="rounded-[2rem] border border-slate-200 bg-white/88 p-8 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.45)]">
+        <section className="rounded-4xl border border-slate-200 bg-white/88 p-8 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.45)]">
           <div className="max-w-2xl space-y-6">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-700">
@@ -101,7 +101,7 @@ export default async function CreatePage({ searchParams }: CreatePageProps) {
               </div>
 
               <button
-                className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold !text-white transition hover:bg-slate-800"
+                className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white! transition hover:bg-slate-800"
                 formAction={createShortLink}
               >
                 Create short link
@@ -111,7 +111,7 @@ export default async function CreatePage({ searchParams }: CreatePageProps) {
         </section>
 
         <aside className="space-y-6">
-          <section className="rounded-[2rem] border border-slate-200 bg-slate-950 p-6 text-slate-50 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.5)]">
+          <section className="rounded-4xl border border-slate-200 bg-slate-950 p-6 text-slate-50 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.5)]">
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-200">
               Example output
             </p>
@@ -121,7 +121,7 @@ export default async function CreatePage({ searchParams }: CreatePageProps) {
             </p>
           </section>
 
-          <section className="rounded-[2rem] border border-cyan-100 bg-cyan-50 p-6 text-sm leading-7 text-cyan-900">
+          <section className="rounded-4xl border border-cyan-100 bg-cyan-50 p-6 text-sm leading-7 text-cyan-900">
             <p className="font-semibold text-cyan-950">What happens when you submit</p>
             <ul className="mt-3 space-y-2">
               <li>1. Your URL is checked and normalized.</li>

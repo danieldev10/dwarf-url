@@ -60,7 +60,7 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
 
       {bannerText ? <div className={bannerClasses + " mt-8"}>{bannerText}</div> : null}
 
-      <section className="mt-10 rounded-[2rem] border border-slate-200 bg-white/88 p-8 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.45)]">
+      <section className="mt-10 rounded-4xl border border-slate-200 bg-white/88 p-8 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.45)]">
         {links.length === 0 ? (
           <div className="grid gap-6 lg:grid-cols-[1fr_0.8fr]">
             <div>

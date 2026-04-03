@@ -63,7 +63,7 @@ export default function Home() {
 
           <div className="flex flex-col gap-4 sm:flex-row">
             <Link
-              className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold !text-white visited:!text-white transition hover:bg-slate-800"
+              className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white! visited:text-white! transition hover:bg-slate-800"
               href="/create"
             >
               Create a short link
@@ -89,8 +89,8 @@ export default function Home() {
           </div>
         </div>
 
-        <section className="rounded-[2rem] border border-slate-200 bg-slate-950 p-6 text-slate-50 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
-          <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-6">
+        <section className="rounded-4xl border border-slate-200 bg-slate-950 p-6 text-slate-50 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)]">
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
             <div className="flex items-center justify-between text-xs uppercase tracking-[0.25em] text-cyan-200">
               <span>Build progress</span>
               <span>Step 4</span>

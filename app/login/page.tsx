@@ -64,7 +64,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
               This version of the app now uses custom auth: your password hash and session are managed directly by your Next.js app, while Supabase continues to host PostgreSQL.
             </p>
           </div>
-          <div className="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.45)] backdrop-blur">
+          <div className="rounded-4xl border border-white/70 bg-white/80 p-6 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.45)] backdrop-blur">
             <h2 className="text-base font-semibold text-slate-950">How the new auth flow works</h2>
             <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
               <li>1. You create an account with email and password.</li>
@@ -75,7 +75,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           </div>
         </div>
 
-        <section className="rounded-[2rem] border border-slate-200 bg-white/88 p-8 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.45)]">
+        <section className="rounded-4xl border border-slate-200 bg-white/88 p-8 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.45)]">
           <div className="max-w-md space-y-6">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-700">
