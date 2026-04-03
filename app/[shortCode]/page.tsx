@@ -1,6 +1,11 @@
 import { notFound, redirect } from "next/navigation";
 
 import { prisma } from "@/lib/prisma";
+import {
+  getRateLimitValue,
+  getRequestFingerprint,
+  shouldAllowRateLimitedAction,
+} from "@/lib/security/rate-limit";
 
 type ShortCodePageProps = {
   params: Promise<{
@@ -24,16 +29,27 @@ export default async function ShortCodePage({ params }: ShortCodePageProps) {
     notFound();
   }
 
-  await prisma.shortLink.update({
-    where: {
-      id: link.id,
-    },
-    data: {
-      clickCount: {
-        increment: 1,
-      },
-    },
+  const requestFingerprint = await getRequestFingerprint();
+  const clickRateLimit = getRateLimitValue("DWARFURL_CLICK_RATE_LIMIT", 20);
+  const shouldCountClick = shouldAllowRateLimitedAction({
+    keyParts: [shortCode, requestFingerprint],
+    limit: clickRateLimit,
+    scope: "short-link-click",
+    windowMs: 1000 * 60,
   });
+
+  if (shouldCountClick) {
+    await prisma.shortLink.update({
+      where: {
+        id: link.id,
+      },
+      data: {
+        clickCount: {
+          increment: 1,
+        },
+      },
+    });
+  }
 
   redirect(link.originalUrl);
 }

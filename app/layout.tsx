@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "DwarfURL",
-  description: "A simple, beginner-friendly URL shortener built with Next.js.",
+  description: "Shorten long URLs, share them anywhere, and keep them organized in one library.",
 };
 
 export default function RootLayout({

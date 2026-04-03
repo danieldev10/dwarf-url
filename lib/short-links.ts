@@ -2,6 +2,7 @@ import "server-only";
 
 import crypto from "node:crypto";
 
+import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 
 const SHORT_CODE_ALPHABET = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -13,6 +14,28 @@ export function normalizeOriginalUrl(input: string) {
 
   if (!trimmedInput) {
     throw new Error("Paste a URL to shorten.");
+  }
+
+  const explicitSchemeMatch = trimmedInput.match(/^([a-z][a-z\d+\-.]*):/i);
+
+  if (explicitSchemeMatch && !/^https?:\/\//i.test(trimmedInput)) {
+    throw new Error("Enter a valid http or https URL.");
+  }
+
+  const missingSchemeSeparatorMatch = trimmedInput.match(
+    /^([a-z][a-z\d+\-.]*)\/\//i,
+  );
+
+  if (missingSchemeSeparatorMatch) {
+    const missingSchemeSeparatorPrefix =
+      missingSchemeSeparatorMatch[1].toLowerCase();
+
+    if (
+      missingSchemeSeparatorPrefix !== "localhost" &&
+      !missingSchemeSeparatorPrefix.includes(".")
+    ) {
+      throw new Error("Enter a valid http or https URL.");
+    }
   }
 
   const candidate = /^https?:\/\//i.test(trimmedInput)
@@ -39,22 +62,36 @@ function generateShortCodeCandidate() {
   return shortCode;
 }
 
-export async function generateUniqueShortCode() {
-  for (let attempt = 0; attempt < MAX_GENERATION_ATTEMPTS; attempt += 1) {
-    const candidate = generateShortCodeCandidate();
-    const existingLink = await prisma.shortLink.findUnique({
-      where: {
-        shortCode: candidate,
-      },
-      select: {
-        id: true,
-      },
-    });
+function isShortCodeConflict(error: unknown) {
+  return (
+    error instanceof Prisma.PrismaClientKnownRequestError &&
+    error.code === "P2002"
+  );
+}
 
-    if (!existingLink) {
-      return candidate;
+export async function createShortLinkRecord(input: {
+  originalUrl: string;
+  title: string | null;
+  userId: string;
+}) {
+  for (let attempt = 0; attempt < MAX_GENERATION_ATTEMPTS; attempt += 1) {
+    const shortCode = generateShortCodeCandidate();
+
+    try {
+      return await prisma.shortLink.create({
+        data: {
+          ...input,
+          shortCode,
+        },
+      });
+    } catch (error) {
+      if (isShortCodeConflict(error)) {
+        continue;
+      }
+
+      throw error;
     }
   }
 
-  throw new Error("We could not generate a unique short code. Please try again.");
+  throw new Error("We couldn't generate a unique short link. Please try again.");
 }

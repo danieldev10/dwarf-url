@@ -29,10 +29,10 @@ export default async function CreatePage({ searchParams }: CreatePageProps) {
             Create
           </p>
           <h1 className="mt-3 text-4xl font-semibold tracking-tight text-slate-950">
-            Create a short link for your library.
+            Create a short link.
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600">
-            Signed in as {user.email}. Paste a long URL, add an optional title, and DwarfURL will generate a short code for you.
+            Signed in as {user.email}. Add a destination, give it an optional title, and save a clean link you can share right away.
           </p>
         </div>
 
@@ -59,7 +59,7 @@ export default async function CreatePage({ searchParams }: CreatePageProps) {
                 Shorten a URL
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
-                Save a link in one step
+                Create a link in seconds
               </h2>
             </div>
 
@@ -79,7 +79,7 @@ export default async function CreatePage({ searchParams }: CreatePageProps) {
                   maxLength={80}
                 />
                 <p className="text-sm leading-6 text-slate-500">
-                  Optional. This helps you recognize the link in your library later.
+                  Optional. Use a short label so the link is easier to spot later.
                 </p>
               </div>
 
@@ -96,7 +96,7 @@ export default async function CreatePage({ searchParams }: CreatePageProps) {
                   required
                 />
                 <p className="text-sm leading-6 text-slate-500">
-                  Tip: if you paste `example.com`, the app will automatically add `https://`.
+                  Paste a full URL or just the domain. We will add `https://` when needed.
                 </p>
               </div>
 
@@ -113,21 +113,20 @@ export default async function CreatePage({ searchParams }: CreatePageProps) {
         <aside className="space-y-6">
           <section className="rounded-4xl border border-slate-200 bg-slate-950 p-6 text-slate-50 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.5)]">
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-200">
-              Example output
+              Preview
             </p>
             <p className="mt-4 text-lg font-semibold text-white">{baseUrl}/dW4rf7X</p>
             <p className="mt-3 text-sm leading-7 text-slate-300">
-              Each new link gets a unique short code and is attached to your account.
+              Your next short link will look something like this and will be ready to share right away.
             </p>
           </section>
 
           <section className="rounded-4xl border border-cyan-100 bg-cyan-50 p-6 text-sm leading-7 text-cyan-900">
-            <p className="font-semibold text-cyan-950">What happens when you submit</p>
+            <p className="font-semibold text-cyan-950">Helpful tips</p>
             <ul className="mt-3 space-y-2">
-              <li>1. Your URL is checked and normalized.</li>
-              <li>2. DwarfURL generates a unique short code.</li>
-              <li>3. The link is saved under your user account.</li>
-              <li>4. You are redirected to your library to see it.</li>
+              <li>1. Use clear titles for links you plan to reuse often.</li>
+              <li>2. New links appear in your library immediately after you create them.</li>
+              <li>3. Your short links can be opened and shared directly from the library page.</li>
             </ul>
           </section>
         </aside>

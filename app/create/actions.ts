@@ -4,9 +4,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { requireUser } from "@/lib/auth/session";
-import { prisma } from "@/lib/prisma";
 import {
-  generateUniqueShortCode,
+  RateLimitError,
+  assertRateLimit,
+  getRateLimitValue,
+} from "@/lib/security/rate-limit";
+import {
+  createShortLinkRecord,
   normalizeOriginalUrl,
 } from "@/lib/short-links";
 
@@ -22,6 +26,23 @@ export async function createShortLink(formData: FormData) {
   const user = await requireUser("Please sign in to create short links.");
   const title = String(formData.get("title") ?? "").trim();
   const originalUrlInput = String(formData.get("originalUrl") ?? "").trim();
+  const createLinkRateLimit = getRateLimitValue("DWARFURL_CREATE_LINK_RATE_LIMIT", 25);
+
+  try {
+    assertRateLimit({
+      keyParts: [user.id],
+      limit: createLinkRateLimit,
+      message: "You're creating links too quickly. Please wait a minute and try again.",
+      scope: "create-short-link",
+      windowMs: 1000 * 60,
+    });
+  } catch (error) {
+    if (error instanceof RateLimitError) {
+      redirect(buildRedirect("/create", "error", error.message));
+    }
+
+    throw error;
+  }
 
   if (title.length > 80) {
     redirect(
@@ -43,23 +64,23 @@ export async function createShortLink(formData: FormData) {
   }
 
   try {
-    const shortCode = await generateUniqueShortCode();
-
-    await prisma.shortLink.create({
-      data: {
-        title: title || null,
-        originalUrl,
-        shortCode,
-        userId: user.id,
-      },
+    await createShortLinkRecord({
+      originalUrl,
+      title: title || null,
+      userId: user.id,
     });
   } catch (error) {
-    const message =
-      error instanceof Error
-        ? error.message
-        : "We could not create that short link. Please try again.";
+    if (error instanceof RateLimitError) {
+      redirect(buildRedirect("/create", "error", error.message));
+    }
 
-    redirect(buildRedirect("/create", "error", message));
+    redirect(
+      buildRedirect(
+        "/create",
+        "error",
+        "We couldn't create that short link. Please try again.",
+      ),
+    );
   }
 
   revalidatePath("/create");

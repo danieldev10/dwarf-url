@@ -147,6 +147,7 @@ export async function getCurrentUser() {
   });
 
   if (!session) {
+    await clearSessionCookie();
     return null;
   }
 
@@ -157,6 +158,7 @@ export async function getCurrentUser() {
       },
     });
 
+    await clearSessionCookie();
     return null;
   }
 

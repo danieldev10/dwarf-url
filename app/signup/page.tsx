@@ -38,35 +38,24 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
           className="rounded-full px-4 py-2 text-sm font-medium text-slate-700 hover:bg-white/70"
           href="/login"
         >
-          Already have an account?
+          Sign in
         </Link>
       </header>
 
       <section className="grid flex-1 items-center gap-10 py-12 lg:grid-cols-[0.95fr_1.05fr] lg:py-20">
         <div className="space-y-6">
-          <p className="inline-flex rounded-full border border-cyan-200 bg-cyan-50 px-4 py-2 text-sm font-medium text-cyan-800">
-            Signup step: create your DwarfURL account
-          </p>
           <div className="space-y-4">
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500">
-              Get your own link library
+              Start your library
             </p>
             <h1 className="max-w-2xl text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
-              Create your account and start saving short links.
+              Start shortening and organizing links in minutes.
             </h1>
             <p className="max-w-xl text-lg leading-8 text-slate-600">
-              There is no email confirmation step now. Once you sign up, the app creates your account, hashes your password, and signs you in immediately.
+              Create an account to save the links you use most, keep them tidy with titles, and come back to them anytime.
             </p>
           </div>
-          <div className="rounded-4xl border border-white/70 bg-white/80 p-6 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.45)] backdrop-blur">
-            <h2 className="text-base font-semibold text-slate-950">What happens next?</h2>
-            <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
-              <li>1. Create your account with email and password.</li>
-              <li>2. The app stores your password hash in Postgres.</li>
-              <li>3. A secure session cookie signs you in immediately.</li>
-              <li>4. Your library becomes available right away.</li>
-            </ul>
-          </div>
+
         </div>
 
         <section className="rounded-4xl border border-slate-200 bg-white/88 p-8 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.45)]">
@@ -76,7 +65,7 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
                 Create account
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
-                Start with your email and password
+                Use your email to get started
               </h2>
             </div>
 
