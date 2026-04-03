@@ -6,6 +6,8 @@ import { getBaseUrl } from "@/lib/app-url";
 import { requireUser } from "@/lib/auth/session";
 import { prisma } from "@/lib/prisma";
 
+import AccountMenu from "@/app/account-menu";
+
 import RowActions from "./row-actions";
 import {
   DEFAULT_LIBRARY_SORT,
@@ -32,7 +34,6 @@ type LibraryPageProps = {
 export default async function LibraryPage({ searchParams }: LibraryPageProps) {
   const user = await requireUser("Please sign in to see your library.");
   const baseUrl = await getBaseUrl();
-  const userLabel = user.name?.trim() || user.email;
   const params = (await searchParams) ?? {};
   const query = getSingleSearchParam(params.query).trim();
   const requestedPage = getCurrentPage(params.page);
@@ -86,26 +87,16 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
           <p className="text-xs font-semibold uppercase tracking-[0.32em] text-cyan-700">
             Library
           </p>
-          <h1 className="mt-1.5 text-[2rem] font-semibold tracking-tight text-slate-950 sm:text-[2.15rem]">
-            Your links, all in one place.
-          </h1>
-          <p className="mt-2.5 max-w-2xl text-[15px] leading-7 text-slate-600">
-            Signed in as {userLabel}. Open, share, and keep track of every short link from one library.
-          </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex w-full items-center justify-between gap-2.5 sm:w-auto sm:justify-start">
           <Link
             className="rounded-full bg-slate-950 px-3.5 py-2 text-sm font-semibold text-white! visited:text-white! transition hover:bg-slate-800"
             href="/create"
           >
             Create a link
           </Link>
-          <form action="/auth/signout" method="post">
-            <button className="rounded-full border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-900 transition hover:border-slate-400">
-              Sign out
-            </button>
-          </form>
+          <AccountMenu email={user.email} name={user.name ?? null} />
         </div>
       </header>
 

@@ -1,6 +1,25 @@
 import Link from "next/link";
 
+import MobileDrawerMenu from "./mobile-drawer-menu";
 
+const homeNavItems = [
+  {
+    href: "/login",
+    label: "Log in",
+  },
+  {
+    href: "/signup",
+    label: "Create account",
+  },
+  {
+    href: "/create",
+    label: "Create",
+  },
+  {
+    href: "/library",
+    label: "Library",
+  },
+] as const;
 
 export default function Home() {
   return (
@@ -11,20 +30,18 @@ export default function Home() {
             DwarfURL
           </p>
         </div>
-        <nav className="flex items-center gap-2.5 text-sm font-medium text-slate-700">
-          <Link className="rounded-full px-3.5 py-2 hover:bg-white/70" href="/login">
-            Log in
-          </Link>
-          <Link className="rounded-full px-3.5 py-2 hover:bg-white/70" href="/signup">
-            Create account
-          </Link>
-          <Link className="rounded-full px-3.5 py-2 hover:bg-white/70" href="/create">
-            Create
-          </Link>
-          <Link className="rounded-full px-3.5 py-2 hover:bg-white/70" href="/library">
-            Library
-          </Link>
+        <nav className="hidden items-center gap-2.5 text-sm font-medium text-slate-700 md:flex">
+          {homeNavItems.map((item) => (
+            <Link
+              className="rounded-full px-3.5 py-2 hover:bg-white/70"
+              href={item.href}
+              key={item.href}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
+        <MobileDrawerMenu items={[...homeNavItems]} />
       </header>
 
       <section className="grid flex-1 items-center gap-8 py-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-7 lg:py-6">

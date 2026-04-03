@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 
 import { getCurrentUser } from "@/lib/auth/session";
 
+import MobileDrawerMenu from "@/app/mobile-drawer-menu";
+
 import { login } from "./actions";
 
 type LoginPageProps = {
@@ -13,6 +15,16 @@ type LoginPageProps = {
 };
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const loginNavItems = [
+    {
+      href: "/signup",
+      label: "Create account",
+    },
+    {
+      href: "/",
+      label: "Back home",
+    },
+  ] as const;
   const user = await getCurrentUser();
 
   if (user) {
@@ -32,7 +44,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         >
           DwarfURL
         </Link>
-        <div className="flex items-center gap-3">
+        <div className="hidden items-center gap-3 md:flex">
           <Link
             className="rounded-full px-4 py-2 text-sm font-medium text-slate-700 hover:bg-white/70"
             href="/signup"
@@ -46,6 +58,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             Back home
           </Link>
         </div>
+        <MobileDrawerMenu items={[...loginNavItems]} />
       </header>
 
       <section className="grid flex-1 items-center gap-10 py-12 lg:grid-cols-[0.95fr_1.05fr] lg:py-20">

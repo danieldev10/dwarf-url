@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 
 import { getCurrentUser } from "@/lib/auth/session";
 
+import MobileDrawerMenu from "@/app/mobile-drawer-menu";
+
 import { signup } from "@/app/login/actions";
 
 type SignupPageProps = {
@@ -13,6 +15,16 @@ type SignupPageProps = {
 };
 
 export default async function SignupPage({ searchParams }: SignupPageProps) {
+  const signupNavItems = [
+    {
+      href: "/login",
+      label: "Sign in",
+    },
+    {
+      href: "/",
+      label: "Back home",
+    },
+  ] as const;
   const user = await getCurrentUser();
 
   if (user) {
@@ -35,11 +47,12 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
           DwarfURL
         </Link>
         <Link
-          className="rounded-full px-4 py-2 text-sm font-medium text-slate-700 hover:bg-white/70"
+          className="hidden rounded-full px-4 py-2 text-sm font-medium text-slate-700 hover:bg-white/70 md:inline-flex"
           href="/login"
         >
           Sign in
         </Link>
+        <MobileDrawerMenu items={[...signupNavItems]} />
       </header>
 
       <section className="grid flex-1 items-center gap-10 py-12 lg:grid-cols-[0.95fr_1.05fr] lg:py-20">

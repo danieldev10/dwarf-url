@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getBaseUrl } from "@/lib/app-url";
 import { requireUser } from "@/lib/auth/session";
 
+import AccountMenu from "@/app/account-menu";
+
 import { createShortLink } from "./actions";
 
 type CreatePageProps = {
@@ -15,7 +17,6 @@ type CreatePageProps = {
 export default async function CreatePage({ searchParams }: CreatePageProps) {
   const user = await requireUser("Please sign in to create short links.");
   const baseUrl = await getBaseUrl();
-  const userLabel = user.name?.trim() || user.email;
   const params = (await searchParams) ?? {};
   const bannerText = params.error ?? params.message ?? null;
   const bannerClasses = params.error
@@ -29,26 +30,17 @@ export default async function CreatePage({ searchParams }: CreatePageProps) {
           <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-700">
             Create
           </p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-tight text-slate-950">
-            Create a short link.
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600">
-            Signed in as {userLabel}. Add a destination, give it an optional title, and save a clean link you can share right away.
-          </p>
+
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex w-full items-center justify-between gap-3 sm:w-auto sm:justify-start">
           <Link
             className="rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white! visited:text-white! transition hover:bg-slate-800"
             href="/library"
           >
             View library
           </Link>
-          <form action="/auth/signout" method="post">
-            <button className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-400">
-              Sign out
-            </button>
-          </form>
+          <AccountMenu email={user.email} name={user.name ?? null} />
         </div>
       </header>
 
