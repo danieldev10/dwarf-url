@@ -77,6 +77,10 @@ export function getSessionCookieValue() {
   return cookieStore.getValue("dwarfurl_session");
 }
 
+export function getGuestCookieValue() {
+  return cookieStore.getValue("dwarfurl_guest");
+}
+
 export function resetNextMockState() {
   cookieStore.clear();
   headerValues = new Map<string, string>(Object.entries(DEFAULT_HEADERS));

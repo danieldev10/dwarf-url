@@ -69,11 +69,20 @@ function isShortCodeConflict(error: unknown) {
   );
 }
 
+type ShortLinkOwnerInput =
+  | {
+      guestTokenHash: string;
+      userId?: never;
+    }
+  | {
+      guestTokenHash?: never;
+      userId: string;
+    };
+
 export async function createShortLinkRecord(input: {
   originalUrl: string;
   title: string | null;
-  userId: string;
-}) {
+} & ShortLinkOwnerInput) {
   for (let attempt = 0; attempt < MAX_GENERATION_ATTEMPTS; attempt += 1) {
     const shortCode = generateShortCodeCandidate();
 

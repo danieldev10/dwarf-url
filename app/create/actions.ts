@@ -3,11 +3,13 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { requireUser } from "@/lib/auth/session";
+import { getOrCreateGuestLinkTokenHash } from "@/lib/auth/guest-links";
+import { getCurrentUser } from "@/lib/auth/session";
 import {
   RateLimitError,
   assertRateLimit,
   getRateLimitValue,
+  getRequestFingerprint,
 } from "@/lib/security/rate-limit";
 import {
   createShortLinkRecord,
@@ -22,18 +24,37 @@ function buildRedirect(
   return path + "?" + kind + "=" + encodeURIComponent(text);
 }
 
+function buildGuestSuccessRedirect(shortCode: string, message: string) {
+  return (
+    "/create?message=" +
+    encodeURIComponent(message) +
+    "&shortCode=" +
+    encodeURIComponent(shortCode)
+  );
+}
+
 export async function createShortLink(formData: FormData) {
-  const user = await requireUser("Please sign in to create short links.");
+  const user = await getCurrentUser();
   const title = String(formData.get("title") ?? "").trim();
   const originalUrlInput = String(formData.get("originalUrl") ?? "").trim();
-  const createLinkRateLimit = getRateLimitValue("DWARFURL_CREATE_LINK_RATE_LIMIT", 25);
+  const createLinkRateLimit = getRateLimitValue(
+    "DWARFURL_CREATE_LINK_RATE_LIMIT",
+    25,
+  );
+  const guestCreateLinkRateLimit = getRateLimitValue(
+    "DWARFURL_GUEST_CREATE_LINK_RATE_LIMIT",
+    10,
+  );
+  const requestFingerprint = user ? null : await getRequestFingerprint();
 
   try {
     assertRateLimit({
-      keyParts: [user.id],
-      limit: createLinkRateLimit,
-      message: "You're creating links too quickly. Please wait a minute and try again.",
-      scope: "create-short-link",
+      keyParts: [user?.id ?? requestFingerprint ?? "unknown-request"],
+      limit: user ? createLinkRateLimit : guestCreateLinkRateLimit,
+      message: user
+        ? "You're creating links too quickly. Please wait a minute and try again."
+        : "You're creating guest links too quickly. Please wait a minute and try again.",
+      scope: user ? "create-short-link" : "create-short-link-guest",
       windowMs: 1000 * 60,
     });
   } catch (error) {
@@ -63,11 +84,17 @@ export async function createShortLink(formData: FormData) {
     redirect(buildRedirect("/create", "error", message));
   }
 
+  const ownerInput = user
+    ? { userId: user.id }
+    : { guestTokenHash: await getOrCreateGuestLinkTokenHash() };
+
+  let shortLink: Awaited<ReturnType<typeof createShortLinkRecord>> | null = null;
+
   try {
-    await createShortLinkRecord({
+    shortLink = await createShortLinkRecord({
       originalUrl,
+      ...ownerInput,
       title: title || null,
-      userId: user.id,
     });
   } catch (error) {
     if (error instanceof RateLimitError) {
@@ -85,5 +112,15 @@ export async function createShortLink(formData: FormData) {
 
   revalidatePath("/create");
   revalidatePath("/library");
-  redirect(buildRedirect("/library", "message", "Short link created."));
+
+  if (user) {
+    redirect(buildRedirect("/library", "message", "Short link created."));
+  }
+
+  redirect(
+    buildGuestSuccessRedirect(
+      shortLink.shortCode,
+      "Short link created. Sign in later to save it to your library.",
+    ),
+  );
 }

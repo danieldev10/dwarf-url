@@ -11,6 +11,7 @@ import { normalizeOriginalUrl } from "@/lib/short-links";
 import { createTestEmail } from "./support/database";
 import {
   RedirectError,
+  getGuestCookieValue,
   getSessionCookieValue,
   setMockHeaders,
 } from "./support/next-test-context";
@@ -292,6 +293,130 @@ describe("App flows", () => {
     expect(link?.title).toBe("Docs");
     expect(link?.originalUrl).toBe("https://example.com/docs");
     expect(link?.shortCode).toHaveLength(7);
+  });
+
+  it("creates a short link for a guest and redirects back to create with the new short code", async () => {
+    const destination = await expectRedirect(
+      createShortLink(
+        buildFormData({
+          originalUrl: "guest-test.example.com/welcome",
+          title: "Guest welcome",
+        }),
+      ),
+    );
+    const link = await prisma.shortLink.findFirst({
+      where: {
+        originalUrl: "https://guest-test.example.com/welcome",
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    expect(link?.title).toBe("Guest welcome");
+    expect(link?.userId).toBeNull();
+    expect(link?.guestTokenHash).toBeTruthy();
+    expect(link?.shortCode).toHaveLength(7);
+    expect(getGuestCookieValue()).toBeTruthy();
+    expect(destination).toBe(
+      `/create?message=Short%20link%20created.%20Sign%20in%20later%20to%20save%20it%20to%20your%20library.&shortCode=${link?.shortCode}`,
+    );
+  });
+
+  it("claims guest-created links during signup", async () => {
+    await expectRedirect(
+      createShortLink(
+        buildFormData({
+          originalUrl: "guest-test.example.com/signup-claim",
+          title: "Guest signup claim",
+        }),
+      ),
+    );
+
+    const guestLink = await prisma.shortLink.findFirst({
+      where: {
+        originalUrl: "https://guest-test.example.com/signup-claim",
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    const email = createTestEmail();
+
+    const destination = await expectRedirect(
+      signup(
+        buildFormData({
+          name: "Guest Claim User",
+          email,
+          password: "password123",
+        }),
+      ),
+    );
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    const claimedLink = await prisma.shortLink.findUnique({
+      where: {
+        id: guestLink?.id,
+      },
+    });
+
+    expect(destination).toBe("/library");
+    expect(user).toBeTruthy();
+    expect(claimedLink?.userId).toBe(user?.id);
+    expect(claimedLink?.guestTokenHash).toBeNull();
+    expect(getGuestCookieValue()).toBe("");
+    expect(getSessionCookieValue()).toBeTruthy();
+  });
+
+  it("claims guest-created links during login", async () => {
+    await expectRedirect(
+      createShortLink(
+        buildFormData({
+          originalUrl: "guest-test.example.com/login-claim",
+          title: "Guest login claim",
+        }),
+      ),
+    );
+
+    const guestLink = await prisma.shortLink.findFirst({
+      where: {
+        originalUrl: "https://guest-test.example.com/login-claim",
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    const email = createTestEmail();
+    const passwordHash = await hashPassword("password123");
+    const user = await prisma.user.create({
+      data: {
+        email,
+        passwordHash,
+      },
+    });
+
+    const destination = await expectRedirect(
+      login(
+        buildFormData({
+          email,
+          password: "password123",
+        }),
+      ),
+    );
+    const claimedLink = await prisma.shortLink.findUnique({
+      where: {
+        id: guestLink?.id,
+      },
+    });
+
+    expect(destination).toBe("/library");
+    expect(claimedLink?.userId).toBe(user.id);
+    expect(claimedLink?.guestTokenHash).toBeNull();
+    expect(getGuestCookieValue()).toBe("");
+    expect(getSessionCookieValue()).toBeTruthy();
   });
 
   it("updates a link title and preserves the current library filters in the redirect", async () => {

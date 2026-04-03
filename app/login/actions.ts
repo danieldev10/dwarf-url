@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { claimGuestShortLinks } from "@/lib/auth/guest-links";
 import {
   buildAuthRedirect,
   createSession,
@@ -105,9 +106,12 @@ export async function login(formData: FormData) {
     redirect(buildAuthRedirect("/login", "error", INVALID_LOGIN_MESSAGE));
   }
 
+  await claimGuestShortLinks(user.id);
   await createSession(user.id);
 
   revalidatePath("/", "layout");
+  revalidatePath("/create");
+  revalidatePath("/library");
   redirect("/library");
 }
 
@@ -179,8 +183,11 @@ export async function signup(formData: FormData) {
     },
   });
 
+  await claimGuestShortLinks(user.id);
   await createSession(user.id);
 
   revalidatePath("/", "layout");
+  revalidatePath("/create");
+  revalidatePath("/library");
   redirect("/library");
 }

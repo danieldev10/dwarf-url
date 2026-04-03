@@ -6,7 +6,7 @@ const globalForPrisma = globalThis as unknown as {
   prismaAdapter: PrismaPg | undefined;
 };
 
-const runtimeConnectionString = process.env.DATABASE_URL ?? process.env.DIRECT_URL;
+const runtimeConnectionString = process.env.DIRECT_URL ?? process.env.DATABASE_URL;
 
 if (!runtimeConnectionString) {
   throw new Error("Set DATABASE_URL for app runtime access to PostgreSQL.");

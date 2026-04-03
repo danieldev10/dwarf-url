@@ -53,11 +53,11 @@ export default function AccountMenu({ email, name }: AccountMenuProps) {
       </button>
 
       <div
-        className={`absolute top-full right-0 z-40 mt-2 w-[min(15rem,calc(100vw-2rem))] max-w-[15rem] rounded-[1.35rem] border border-slate-200 bg-white/98 p-3 shadow-[0_24px_50px_-28px_rgba(15,23,42,0.55)] transition duration-150 ${isOpen ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0"}`}
+        className={`absolute top-full right-0 z-40 mt-2 w-[min(15rem,calc(100vw-2rem))] max-w-60 rounded-[1.35rem] border border-slate-200 bg-white/98 p-3 shadow-[0_24px_50px_-28px_rgba(15,23,42,0.55)] transition duration-150 ${isOpen ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0"}`}
         id={panelId}
         role="menu"
       >
-        <div className="rounded-[1rem] bg-slate-50 px-3 py-3">
+        <div className="rounded-2xl bg-slate-50 px-3 py-3">
           <p className="text-sm font-semibold text-slate-950">{displayName}</p>
           <p className="mt-1 break-all text-xs leading-5 text-slate-500">{email}</p>
         </div>

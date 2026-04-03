@@ -140,6 +140,9 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                 Sign up
               </Link>
             </p>
+            <p className="text-sm leading-7 text-slate-500">
+              Any guest links you created on this device will move into your library after you sign in.
+            </p>
           </div>
         </section>
       </section>

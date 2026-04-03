@@ -140,6 +140,9 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
                 Sign in here
               </Link>
             </p>
+            <p className="text-sm leading-7 text-slate-500">
+              If you already created links as a guest on this device, we&apos;ll add them to your library after signup.
+            </p>
           </div>
         </section>
       </section>

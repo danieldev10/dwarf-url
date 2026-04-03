@@ -9,6 +9,14 @@ export function createTestEmail() {
 }
 
 export async function cleanupIntegrationData() {
+  await prisma.shortLink.deleteMany({
+    where: {
+      originalUrl: {
+        startsWith: "https://guest-test.example.com/",
+      },
+    },
+  });
+
   await prisma.user.deleteMany({
     where: {
       email: {
