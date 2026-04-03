@@ -51,9 +51,6 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
             <h1 className="max-w-2xl text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
               Start shortening and organizing links in minutes.
             </h1>
-            <p className="max-w-xl text-lg leading-8 text-slate-600">
-              Create an account to save the links you use most, keep them tidy with titles, and come back to them anytime.
-            </p>
           </div>
 
         </div>
@@ -65,13 +62,28 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
                 Create account
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
-                Use your email to get started
+                Use your details to get started
               </h2>
             </div>
 
             {bannerText ? <div className={bannerClasses}>{bannerText}</div> : null}
 
             <form className="space-y-5">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-slate-700" htmlFor="name">
+                  Name
+                </label>
+                <input
+                  className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-950 outline-none transition focus:border-cyan-500"
+                  id="name"
+                  name="name"
+                  type="text"
+                  placeholder="Steve Jobs"
+                  maxLength={80}
+                  required
+                />
+              </div>
+
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-700" htmlFor="email">
                   Email

@@ -15,6 +15,7 @@ type CreatePageProps = {
 export default async function CreatePage({ searchParams }: CreatePageProps) {
   const user = await requireUser("Please sign in to create short links.");
   const baseUrl = await getBaseUrl();
+  const userLabel = user.name?.trim() || user.email;
   const params = (await searchParams) ?? {};
   const bannerText = params.error ?? params.message ?? null;
   const bannerClasses = params.error
@@ -32,7 +33,7 @@ export default async function CreatePage({ searchParams }: CreatePageProps) {
             Create a short link.
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600">
-            Signed in as {user.email}. Add a destination, give it an optional title, and save a clean link you can share right away.
+            Signed in as {userLabel}. Add a destination, give it an optional title, and save a clean link you can share right away.
           </p>
         </div>
 

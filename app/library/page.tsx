@@ -32,6 +32,7 @@ type LibraryPageProps = {
 export default async function LibraryPage({ searchParams }: LibraryPageProps) {
   const user = await requireUser("Please sign in to see your library.");
   const baseUrl = await getBaseUrl();
+  const userLabel = user.name?.trim() || user.email;
   const params = (await searchParams) ?? {};
   const query = getSingleSearchParam(params.query).trim();
   const requestedPage = getCurrentPage(params.page);
@@ -79,7 +80,7 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
   });
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-[70rem] flex-col px-5 py-7 sm:px-8 lg:px-10 lg:py-6">
+    <main className="mx-auto flex min-h-screen w-full max-w-280 flex-col px-5 py-7 sm:px-8 lg:px-10 lg:py-6">
       <header className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.32em] text-cyan-700">
@@ -89,7 +90,7 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
             Your links, all in one place.
           </h1>
           <p className="mt-2.5 max-w-2xl text-[15px] leading-7 text-slate-600">
-            Signed in as {user.email}. Open, share, and keep track of every short link from one library.
+            Signed in as {userLabel}. Open, share, and keep track of every short link from one library.
           </p>
         </div>
 
@@ -114,12 +115,10 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
         <div className="flex flex-col gap-3.5 border-b border-slate-200 pb-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="text-lg font-semibold text-slate-950">Manage your links</h2>
-            <p className="mt-1 text-sm leading-6 text-slate-600">
-              Search, sort, copy, rename, and clean up your links without leaving the page.
-            </p>
+
           </div>
 
-          <Form action="/library" className="flex w-full max-w-[42rem] flex-col gap-2 lg:flex-row">
+          <Form action="/library" className="flex w-full max-w-2xl flex-col gap-2 lg:flex-row">
             <input
               className="min-w-0 flex-1 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-950 outline-none transition focus:border-cyan-500"
               defaultValue={query}
@@ -166,7 +165,7 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
                   : "Create your first short link and it will show up here right away, ready to open and share."}
               </p>
             </div>
-            <div className="rounded-[1.5rem] border border-cyan-100 bg-cyan-50 p-4 text-sm leading-6 text-cyan-900">
+            <div className="rounded-3xl border border-cyan-100 bg-cyan-50 p-4 text-sm leading-6 text-cyan-900">
               <p className="font-semibold text-cyan-950">Ideas to get started</p>
               <ul className="mt-2.5 space-y-1.5">
                 <li>1. Shorten a long article, product, or campaign link.</li>
@@ -188,7 +187,7 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
               </p>
             </div>
 
-            <div className="hidden overflow-hidden rounded-[1.5rem] border border-slate-200 lg:block">
+            <div className="hidden overflow-hidden rounded-3xl border border-slate-200 lg:block">
               <table className="min-w-full border-collapse table-fixed">
                 <thead className="bg-slate-100/80">
                   <tr className="text-left text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500">
@@ -354,7 +353,7 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
                       <div className="flex items-center gap-1" key={pageNumber}>
                         {needsGap ? <span className="px-1 text-slate-300">…</span> : null}
                         <Link
-                          className={`inline-flex h-[1.875rem] min-w-[1.875rem] items-center justify-center rounded-full px-2.5 text-sm font-semibold transition ${pageNumber === currentPage
+                          className={`inline-flex h-7.5 min-w-7.5 items-center justify-center rounded-full px-2.5 text-sm font-semibold transition ${pageNumber === currentPage
                             ? "bg-slate-950 text-white"
                             : "border border-slate-300 bg-white text-slate-900 hover:border-slate-400"
                             }`}

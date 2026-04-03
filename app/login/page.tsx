@@ -57,9 +57,6 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             <h1 className="max-w-2xl text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
               Sign in and pick up where you left off.
             </h1>
-            <p className="max-w-xl text-lg leading-8 text-slate-600">
-              Your saved short links are waiting in one place, ready to open, share, and reuse.
-            </p>
           </div>
 
         </div>

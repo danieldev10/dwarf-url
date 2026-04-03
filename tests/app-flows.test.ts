@@ -48,10 +48,12 @@ describe("App flows", () => {
 
   it("signs up a user, creates a session, and redirects to the library", async () => {
     const email = createTestEmail();
+    const name = "Achonma Tanko";
 
     const destination = await expectRedirect(
       signup(
         buildFormData({
+          name,
           email,
           password: "password123",
         }),
@@ -68,6 +70,7 @@ describe("App flows", () => {
     });
 
     expect(destination).toBe("/library");
+    expect(user?.name).toBe(name);
     expect(user?.passwordHash).toBeTruthy();
     expect(user?.sessions).toHaveLength(1);
     expect(getSessionCookieValue()).toBeTruthy();
@@ -85,6 +88,7 @@ describe("App flows", () => {
     const destination = await expectRedirect(
       signup(
         buildFormData({
+          name: "Existing User",
           email,
           password: "password123",
         }),

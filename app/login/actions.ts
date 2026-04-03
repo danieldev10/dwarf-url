@@ -51,6 +51,15 @@ function getCredentials(formData: FormData) {
   };
 }
 
+function getSignupDetails(formData: FormData) {
+  return {
+    ...getCredentials(formData),
+    name: String(formData.get("name") ?? "")
+      .trim()
+      .replace(/\s+/g, " "),
+  };
+}
+
 export async function login(formData: FormData) {
   const { email, password } = getCredentials(formData);
 
@@ -103,14 +112,24 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
-  const { email, password } = getCredentials(formData);
+  const { email, name, password } = getSignupDetails(formData);
 
-  if (!email || !password) {
+  if (!name || !email || !password) {
     redirect(
       buildAuthRedirect(
         "/signup",
         "error",
-        "Email and password are both required.",
+        "Name, email, and password are all required.",
+      ),
+    );
+  }
+
+  if (name.length > 80) {
+    redirect(
+      buildAuthRedirect(
+        "/signup",
+        "error",
+        "Keep your name under 80 characters.",
       ),
     );
   }
@@ -155,6 +174,7 @@ export async function signup(formData: FormData) {
   const user = await prisma.user.create({
     data: {
       email,
+      name,
       passwordHash,
     },
   });

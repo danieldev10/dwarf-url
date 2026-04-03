@@ -1,19 +1,6 @@
 import Link from "next/link";
 
-const highlights = [
-  {
-    title: "Shorten in seconds",
-    text: "Paste any long URL and get a clean link that is ready to share right away.",
-  },
-  {
-    title: "Stay organized",
-    text: "Add simple titles so your saved links stay easy to scan and find later.",
-  },
-  {
-    title: "See what gets opened",
-    text: "Track click counts for every short link from one personal library.",
-  },
-];
+
 
 export default function Home() {
   return (
@@ -22,9 +9,6 @@ export default function Home() {
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-700">
             DwarfURL
-          </p>
-          <p className="mt-2 max-w-md text-sm text-slate-600">
-            Short links for work, docs, campaigns, and everyday sharing.
           </p>
         </div>
         <nav className="flex items-center gap-2.5 text-sm font-medium text-slate-700">
@@ -52,9 +36,6 @@ export default function Home() {
             <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-[3.25rem] lg:leading-[1.02]">
               Shorten long URLs, share them anywhere, and keep every link in one place.
             </h1>
-            <p className="max-w-2xl text-base leading-7 text-slate-600 lg:max-w-xl">
-              Turn messy URLs into clean links, save them to your library, and come back anytime to reuse or review them.
-            </p>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -72,17 +53,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-3">
-            {highlights.map((item) => (
-              <article
-                key={item.title}
-                className="rounded-3xl border border-white/70 bg-white/80 p-4 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.45)] backdrop-blur"
-              >
-                <h2 className="text-[0.95rem] font-semibold text-slate-950">{item.title}</h2>
-                <p className="mt-2.5 text-sm leading-6 text-slate-600">{item.text}</p>
-              </article>
-            ))}
-          </div>
+
         </div>
 
         <section className="rounded-4xl border border-slate-200 bg-slate-950 p-5 text-slate-50 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.65)] lg:p-4">
