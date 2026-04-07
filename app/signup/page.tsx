@@ -34,20 +34,20 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
   const params = (await searchParams) ?? {};
   const bannerText = params.error ?? params.message ?? null;
   const bannerClasses = params.error
-    ? "rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-7 text-rose-700"
-    : "rounded-2xl border border-cyan-200 bg-cyan-50 px-4 py-3 text-sm leading-7 text-cyan-800";
+    ? "ray-banner-error text-sm leading-7"
+    : "ray-banner-info text-sm leading-7";
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-6 py-10 sm:px-10 lg:px-12">
       <header className="flex items-center justify-between py-4">
         <Link
-          className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-700"
+          className="text-sm font-semibold tracking-[0.2px] text-white"
           href="/"
         >
           DwarfURL
         </Link>
         <Link
-          className="hidden rounded-full px-4 py-2 text-sm font-medium text-slate-700 hover:bg-white/70 md:inline-flex"
+          className="ray-nav-link hidden px-4 py-2 text-sm font-medium md:inline-flex"
           href="/login"
         >
           Sign in
@@ -58,23 +58,26 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
       <section className="grid flex-1 items-center gap-10 py-12 lg:grid-cols-[0.95fr_1.05fr] lg:py-20">
         <div className="space-y-6">
           <div className="space-y-4">
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500">
+            <p className="ray-eyebrow">
               Start your library
             </p>
-            <h1 className="max-w-2xl text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
+            <h1 className="max-w-2xl text-4xl font-semibold leading-[1.08] tracking-[0px] text-white sm:text-5xl lg:text-6xl">
               Start shortening and organizing links in minutes.
             </h1>
+            <p className="max-w-lg text-sm font-medium leading-7 text-[#9c9c9d]">
+              Keep the URLs you use most in one fast, searchable library.
+            </p>
           </div>
 
         </div>
 
-        <section className="rounded-4xl border border-slate-200 bg-white/88 p-8 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.45)]">
+        <section className="ray-card rounded-2xl p-6 sm:p-8">
           <div className="max-w-md space-y-6">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-700">
+              <p className="ray-eyebrow">
                 Create account
               </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
+              <h2 className="mt-3 text-3xl font-semibold tracking-[0px] text-white">
                 Use your details to get started
               </h2>
             </div>
@@ -83,11 +86,11 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
 
             <form className="space-y-5">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700" htmlFor="name">
+                <label className="ray-label" htmlFor="name">
                   Name
                 </label>
                 <input
-                  className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-950 outline-none transition focus:border-cyan-500"
+                  className="ray-input w-full px-4 py-3 text-sm"
                   id="name"
                   name="name"
                   type="text"
@@ -98,11 +101,11 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700" htmlFor="email">
+                <label className="ray-label" htmlFor="email">
                   Email
                 </label>
                 <input
-                  className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-950 outline-none transition focus:border-cyan-500"
+                  className="ray-input w-full px-4 py-3 text-sm"
                   id="email"
                   name="email"
                   type="email"
@@ -112,11 +115,11 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700" htmlFor="password">
+                <label className="ray-label" htmlFor="password">
                   Password
                 </label>
                 <input
-                  className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-950 outline-none transition focus:border-cyan-500"
+                  className="ray-input w-full px-4 py-3 text-sm"
                   id="password"
                   name="password"
                   type="password"
@@ -127,20 +130,20 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
               </div>
 
               <button
-                className="inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                className="ray-button-primary w-full px-6 py-3 text-sm"
                 formAction={signup}
               >
                 Create account
               </button>
             </form>
 
-            <p className="text-sm leading-7 text-slate-600">
+            <p className="text-sm leading-7 text-[#9c9c9d]">
               Already registered?{" "}
-              <Link className="font-semibold text-cyan-700 hover:text-cyan-800" href="/login">
+              <Link className="ray-link font-semibold" href="/login">
                 Sign in here
               </Link>
             </p>
-            <p className="text-sm leading-7 text-slate-500">
+            <p className="text-sm leading-7 text-[#6a6b6c]">
               If you already created links as a guest on this device, we&apos;ll add them to your library after signup.
             </p>
           </div>

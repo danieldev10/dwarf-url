@@ -41,8 +41,8 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
   const sort = getLibrarySort(params.sort);
   const bannerText = params.error ?? params.message ?? null;
   const bannerClasses = params.error
-    ? "rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-7 text-rose-700"
-    : "rounded-2xl border border-cyan-200 bg-cyan-50 px-4 py-3 text-sm leading-7 text-cyan-800";
+    ? "ray-banner-error text-sm leading-7"
+    : "ray-banner-info text-sm leading-7";
   const where = getLibraryWhere(user.id, query);
 
   const totalLinks = await prisma.shortLink.count({
@@ -84,14 +84,14 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
     <main className="mx-auto flex min-h-screen w-full max-w-280 flex-col px-5 py-7 sm:px-8 lg:px-10 lg:py-6">
       <header className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-cyan-700">
+          <p className="ray-eyebrow">
             Library
           </p>
         </div>
 
         <div className="flex w-full items-center justify-between gap-2.5 sm:w-auto sm:justify-start">
           <Link
-            className="rounded-full bg-slate-950 px-3.5 py-2 text-sm font-semibold text-white! visited:text-white! transition hover:bg-slate-800"
+            className="ray-button-primary px-3.5 py-2 text-sm"
             href="/create"
           >
             Create a link
@@ -102,22 +102,22 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
 
       {bannerText ? <div className={bannerClasses + " mt-5"}>{bannerText}</div> : null}
 
-      <section className="mt-6 rounded-[1.75rem] border border-slate-200 bg-white/88 p-5 shadow-[0_16px_40px_-30px_rgba(15,23,42,0.4)] lg:p-6">
-        <div className="flex flex-col gap-3.5 border-b border-slate-200 pb-4 lg:flex-row lg:items-center lg:justify-between">
+      <section className="ray-card mt-6 rounded-2xl p-5 lg:p-6">
+        <div className="flex flex-col gap-3.5 border-b border-white/[0.06] pb-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-slate-950">Manage your links</h2>
+            <h2 className="text-lg font-semibold text-white">Manage your links</h2>
 
           </div>
 
           <Form action="/library" className="flex w-full max-w-2xl flex-col gap-2 lg:flex-row">
             <input
-              className="min-w-0 flex-1 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-950 outline-none transition focus:border-cyan-500"
+              className="ray-input min-w-0 flex-1 px-3.5 py-2 text-sm"
               defaultValue={query}
               name="query"
               placeholder="Search by title, short code, or destination"
             />
             <select
-              className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition focus:border-cyan-500"
+              className="ray-input px-3 py-2 text-sm"
               defaultValue={sort}
               name="sort"
             >
@@ -128,14 +128,14 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
               ))}
             </select>
             <button
-              className="rounded-full bg-slate-950 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+              className="ray-button-primary px-3.5 py-2 text-sm"
               type="submit"
             >
               Apply
             </button>
             {query || sort !== DEFAULT_LIBRARY_SORT ? (
               <Link
-                className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-900 transition hover:border-slate-400"
+                className="ray-button-secondary px-3.5 py-2 text-sm"
                 href="/library"
               >
                 Clear
@@ -147,17 +147,17 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
         {links.length === 0 ? (
           <div className="grid gap-5 pt-5 lg:grid-cols-[1fr_0.8fr]">
             <div>
-              <h2 className="text-xl font-semibold text-slate-950">
+              <h2 className="text-xl font-semibold text-white">
                 {query ? "No matching links." : "No links yet."}
               </h2>
-              <p className="mt-2.5 max-w-2xl text-sm leading-7 text-slate-600">
+              <p className="mt-2.5 max-w-2xl text-sm leading-7 text-[#9c9c9d]">
                 {query
                   ? "Try a different search term or clear the current filter to see the rest of your library."
                   : "Create your first short link and it will show up here right away, ready to open and share."}
               </p>
             </div>
-            <div className="rounded-3xl border border-cyan-100 bg-cyan-50 p-4 text-sm leading-6 text-cyan-900">
-              <p className="font-semibold text-cyan-950">Ideas to get started</p>
+            <div className="rounded-xl border border-[#55b3ff]/25 bg-[#55b3ff]/10 p-4 text-sm leading-6 text-[#cdeaff]">
+              <p className="font-semibold text-white">Ideas to get started</p>
               <ul className="mt-2.5 space-y-1.5">
                 <li>1. Shorten a long article, product, or campaign link.</li>
                 <li>2. Save a document, form, or page you send often.</li>
@@ -167,7 +167,7 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
           </div>
         ) : (
           <div className="space-y-4 pt-5">
-            <div className="flex flex-col gap-2 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-2 text-xs text-[#6a6b6c] sm:flex-row sm:items-center sm:justify-between">
               <p>
                 Showing {links.length} of {totalLinks} link{totalLinks === 1 ? "" : "s"}
                 {query ? ` for “${query}”` : ""}.
@@ -178,10 +178,10 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
               </p>
             </div>
 
-            <div className="hidden overflow-hidden rounded-3xl border border-slate-200 lg:block">
+            <div className="hidden overflow-hidden rounded-xl border border-white/[0.08] lg:block">
               <table className="min-w-full border-collapse table-fixed">
-                <thead className="bg-slate-100/80">
-                  <tr className="text-left text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                <thead className="bg-white/[0.03]">
+                  <tr className="text-left text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6a6b6c]">
                     <th className="w-[18%] px-4 py-2.5">Title</th>
                     <th className="w-[18%] px-4 py-2.5">Short link</th>
                     <th className="w-[32%] px-4 py-2.5">Destination</th>
@@ -190,7 +190,7 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
                     <th className="w-[14%] px-4 py-2.5">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white">
+                <tbody className="bg-[#07080a]">
                   {links.map((link) => {
                     const shortUrl = baseUrl + "/" + link.shortCode;
                     const createdAtLabel = new Date(link.createdAt).toLocaleDateString(undefined, {
@@ -200,18 +200,18 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
                     });
 
                     return (
-                      <tr key={link.id} className="border-t border-slate-200 align-top">
+                      <tr key={link.id} className="border-t border-white/[0.06] align-top">
                         <td className="px-4 py-3.5">
-                          <p className="text-[13px] font-semibold leading-5 text-slate-950">
+                          <p className="text-[13px] font-semibold leading-5 text-white">
                             {link.title ?? "Untitled link"}
                           </p>
-                          <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-700">
+                          <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#ff6363]">
                             {link.shortCode}
                           </p>
                         </td>
                         <td className="px-4 py-3.5">
                           <Link
-                            className="break-all text-[13px] font-medium leading-5 text-cyan-700 underline decoration-cyan-300 underline-offset-4"
+                            className="ray-link break-all text-[13px] font-medium leading-5"
                             href={"/" + link.shortCode}
                             target="_blank"
                           >
@@ -220,7 +220,7 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
                         </td>
                         <td className="px-4 py-3.5">
                           <a
-                            className="line-clamp-2 break-all text-[13px] leading-5 text-slate-600 underline decoration-slate-300 underline-offset-4"
+                            className="line-clamp-2 break-all text-[13px] leading-5 text-[#9c9c9d] underline decoration-white/20 underline-offset-4 transition hover:text-white"
                             href={link.originalUrl}
                             rel="noreferrer"
                             target="_blank"
@@ -228,8 +228,8 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
                             {link.originalUrl}
                           </a>
                         </td>
-                        <td className="px-4 py-3.5 text-[13px] text-slate-600">{link.clickCount}</td>
-                        <td className="px-4 py-3.5 text-[13px] leading-5 text-slate-600">{createdAtLabel}</td>
+                        <td className="px-4 py-3.5 text-[13px] text-[#9c9c9d]">{link.clickCount}</td>
+                        <td className="px-4 py-3.5 text-[13px] leading-5 text-[#9c9c9d]">{createdAtLabel}</td>
                         <td className="px-4 py-3.5">
                           <RowActions
                             currentPage={currentPage}
@@ -261,23 +261,23 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
                 return (
                   <article
                     key={link.id}
-                    className="rounded-[1.4rem] border border-slate-200 bg-slate-50 p-3.5"
+                    className="rounded-xl border border-white/[0.08] bg-[#07080a] p-3.5"
                   >
                     <div className="space-y-2.5">
                       <div className="space-y-1.5">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-700">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#ff6363]">
                           {link.shortCode}
                         </p>
-                        <h3 className="text-[15px] font-semibold text-slate-950">
+                        <h3 className="text-[15px] font-semibold text-white">
                           {link.title ?? "Untitled link"}
                         </h3>
                       </div>
 
-                      <div className="space-y-1.5 text-sm leading-6 text-slate-600">
+                      <div className="space-y-1.5 text-sm leading-6 text-[#9c9c9d]">
                         <p className="break-all">
                           Destination:{" "}
                           <a
-                            className="font-medium text-slate-900 underline decoration-slate-300 underline-offset-4"
+                            className="font-medium text-[#cecece] underline decoration-white/20 underline-offset-4 transition hover:text-white"
                             href={link.originalUrl}
                             rel="noreferrer"
                             target="_blank"
@@ -288,7 +288,7 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
                         <p className="break-all">
                           Short link:{" "}
                           <Link
-                            className="font-medium text-cyan-700 underline decoration-cyan-300 underline-offset-4"
+                            className="ray-link font-medium"
                             href={"/" + link.shortCode}
                             target="_blank"
                           >
@@ -313,19 +313,19 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
               })}
             </div>
 
-            <div className="flex flex-col gap-3 border-t border-slate-200 pt-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-3 border-t border-white/[0.06] pt-4 sm:flex-row sm:items-center sm:justify-between">
               <Link
                 aria-disabled={currentPage <= 1}
                 className={`inline-flex items-center justify-center rounded-full border px-3.5 py-2 text-sm font-semibold transition ${currentPage <= 1
-                  ? "pointer-events-none border-slate-200 text-slate-300"
-                  : "border-slate-300 bg-white text-slate-900 hover:border-slate-400"
+                  ? "pointer-events-none border-white/[0.06] text-[#434345]"
+                  : "border-white/[0.1] bg-transparent text-[#cecece] hover:opacity-60"
                   }`}
                 href={previousPageHref}
               >
                 Previous
               </Link>
 
-              <div className="flex flex-wrap items-center justify-center gap-1 text-sm text-slate-500">
+              <div className="flex flex-wrap items-center justify-center gap-1 text-sm text-[#6a6b6c]">
                 {Array.from({ length: totalPages }, (_, index) => index + 1)
                   .filter((pageNumber) => {
                     return (
@@ -342,11 +342,11 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
 
                     return (
                       <div className="flex items-center gap-1" key={pageNumber}>
-                        {needsGap ? <span className="px-1 text-slate-300">…</span> : null}
+                        {needsGap ? <span className="px-1 text-[#434345]">…</span> : null}
                         <Link
                           className={`inline-flex h-7.5 min-w-7.5 items-center justify-center rounded-full px-2.5 text-sm font-semibold transition ${pageNumber === currentPage
-                            ? "bg-slate-950 text-white"
-                            : "border border-slate-300 bg-white text-slate-900 hover:border-slate-400"
+                            ? "bg-white text-[#18191a]"
+                            : "border border-white/[0.1] bg-transparent text-[#cecece] hover:opacity-60"
                             }`}
                           href={buildLibraryHref({
                             page: pageNumber,
@@ -364,8 +364,8 @@ export default async function LibraryPage({ searchParams }: LibraryPageProps) {
               <Link
                 aria-disabled={currentPage >= totalPages}
                 className={`inline-flex items-center justify-center rounded-full border px-3.5 py-2 text-sm font-semibold transition ${currentPage >= totalPages
-                  ? "pointer-events-none border-slate-200 text-slate-300"
-                  : "border-slate-300 bg-white text-slate-900 hover:border-slate-400"
+                  ? "pointer-events-none border-white/[0.06] text-[#434345]"
+                  : "border-white/[0.1] bg-transparent text-[#cecece] hover:opacity-60"
                   }`}
                 href={nextPageHref}
               >

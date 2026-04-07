@@ -58,10 +58,10 @@ export default function RowActions({
                 : "Copy short link"
           }
           className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${copyState === "copied"
-            ? "border-cyan-200 bg-cyan-50 text-cyan-700"
+            ? "border-[#5fc992]/40 bg-[#5fc992]/10 text-[#5fc992]"
             : copyState === "failed"
-              ? "border-rose-200 bg-rose-50 text-rose-700"
-              : "border-slate-300 bg-white text-slate-700 hover:border-slate-400"
+              ? "border-[#ff6363]/40 bg-[#ff6363]/10 text-[#ff6363]"
+              : "border-white/[0.1] bg-transparent text-[#9c9c9d] hover:opacity-60"
             }`}
           onClick={handleCopy}
           title={
@@ -85,8 +85,8 @@ export default function RowActions({
         <button
           aria-label={isEditing ? "Cancel editing title" : "Edit title"}
           className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isEditing
-            ? "border-cyan-200 bg-cyan-50 text-cyan-700"
-            : "border-slate-300 bg-white text-slate-700 hover:border-slate-400"
+            ? "border-[#55b3ff]/40 bg-[#55b3ff]/10 text-[#55b3ff]"
+            : "border-white/[0.1] bg-transparent text-[#9c9c9d] hover:opacity-60"
             }`}
           onClick={() => setIsEditing((value) => !value)}
           title={isEditing ? "Cancel" : "Edit"}
@@ -102,7 +102,7 @@ export default function RowActions({
           <input name="sort" type="hidden" value={sort} />
           <button
             aria-label="Delete short link"
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-rose-200 bg-rose-50 text-rose-700 transition hover:border-rose-300 hover:bg-rose-100"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#ff6363]/40 bg-[#ff6363]/10 text-[#ff6363] transition hover:opacity-60"
             title="Delete"
             type="submit"
           >
@@ -119,7 +119,7 @@ export default function RowActions({
           <input name="query" type="hidden" value={query} />
           <input name="sort" type="hidden" value={sort} />
           <input
-            className="min-w-0 flex-1 rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-[13px] text-slate-950 outline-none transition focus:border-cyan-500"
+            className="ray-input min-w-0 flex-1 px-3 py-1.5 text-[13px]"
             maxLength={80}
             name="title"
             onChange={(event) => setDraftTitle(event.target.value)}
@@ -127,7 +127,7 @@ export default function RowActions({
             value={draftTitle}
           />
           <button
-            className="rounded-full bg-slate-950 px-3 py-1.5 text-[11px] font-semibold text-white transition hover:bg-slate-800"
+            className="ray-button-primary px-3 py-1.5 text-[11px]"
             type="submit"
           >
             Save

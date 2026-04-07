@@ -45,7 +45,7 @@ export default function AccountMenu({ email, name }: AccountMenuProps) {
         aria-controls={panelId}
         aria-expanded={isOpen}
         aria-label={isOpen ? "Close account menu" : "Open account menu"}
-        className={`inline-flex h-11 w-11 items-center justify-center rounded-full border bg-white text-slate-900 shadow-[0_12px_24px_-20px_rgba(15,23,42,0.4)] transition hover:border-slate-400 ${isOpen ? "border-slate-400" : "border-slate-300"}`}
+        className={`ray-button-secondary h-11 w-11 p-0 ${isOpen ? "opacity-100" : ""}`}
         onClick={() => setIsOpen((value) => !value)}
         type="button"
       >
@@ -53,18 +53,18 @@ export default function AccountMenu({ email, name }: AccountMenuProps) {
       </button>
 
       <div
-        className={`absolute top-full right-0 z-40 mt-2 w-[min(15rem,calc(100vw-2rem))] max-w-60 rounded-[1.35rem] border border-slate-200 bg-white/98 p-3 shadow-[0_24px_50px_-28px_rgba(15,23,42,0.55)] transition duration-150 ${isOpen ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0"}`}
+        className={`ray-card absolute top-full right-0 z-40 mt-2 w-[min(15rem,calc(100vw-2rem))] max-w-60 rounded-2xl p-3 transition duration-150 ${isOpen ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0"}`}
         id={panelId}
         role="menu"
       >
-        <div className="rounded-2xl bg-slate-50 px-3 py-3">
-          <p className="text-sm font-semibold text-slate-950">{displayName}</p>
-          <p className="mt-1 break-all text-xs leading-5 text-slate-500">{email}</p>
+        <div className="rounded-xl border border-white/[0.06] bg-[#07080a] px-3 py-3">
+          <p className="text-sm font-semibold text-white">{displayName}</p>
+          <p className="mt-1 break-all text-xs leading-5 text-[#9c9c9d]">{email}</p>
         </div>
 
         <form action="/auth/signout" className="mt-3" method="post">
           <button
-            className="inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 transition hover:border-slate-400"
+            className="ray-button-secondary w-full px-4 py-2.5 text-sm"
             type="submit"
           >
             Sign out
